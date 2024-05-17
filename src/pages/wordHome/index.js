@@ -15,6 +15,8 @@ const splitArrayByLength = (arr, length) => {
   return result;
 };
 
+const CetModule = splitArrayByLength(CET, 20);
+
 const WordMainItem = (props) => {
   return (
     <div style={{ height: "100%" }}>
@@ -43,30 +45,43 @@ class wordHome extends React.Component {
     // console.log(CET);
     this.state = {
       showBox: "login", // 默认显示登录表单，可切换成注册表单
-      cetModuleList: splitArrayByLength(CET, 20),
-      mainConList: [],
+      cetModuleList: CetModule,
+      mainConList: CetModule[0],
+      current: "0",
     };
   }
+  componentWillMount() {
+    console.log("载入阶段之前！");
+  }
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log("载入阶段！");
+  }
 
   componentWillUnmount() {}
 
   handleClick = ({ item, key, keyPath, domEvent }) => {
     console.log(this.state, item, key, keyPath, domEvent);
     const data = this.state.cetModuleList[Number(key)];
-    // this.state
     this.setState({ mainConList: data });
+    this.setState({ current: key });
   };
 
   render() {
     return (
       <Layout style={{ height: "100%" }}>
-        <Header className="header">Header</Header>
+        <Header className="header">
+          Word Memory
+          <Button type="primary">Primary</Button>
+        </Header>
         <Layout>
           <Sider className="sider">
             <Scrollbars autoHide>
-              <Menu theme="light" onClick={this.handleClick}>
+              <Menu
+                theme="light"
+                onClick={this.handleClick}
+                selectedKeys={[this.state.current]}
+              >
                 {this.state.cetModuleList.map((e, index) => {
                   return (
                     <Menu.Item key={index}>

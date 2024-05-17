@@ -8,6 +8,7 @@ import getRouter from '@/router/router';
 import store from './redux/store';
 import '@/common/css/reset.scss';
 import '@/common/font/iconfont.css';
+// import '@/style/index.less'
 
 ReactDom.render(
 	<Provider store={store}>
