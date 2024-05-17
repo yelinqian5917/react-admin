@@ -54,12 +54,26 @@
 .header {
   border-bottom: 1px solid #dadfe6;
   background: #f4f7fb;
+  font-weight: bold;
 }
 
 .ant-layout-content {
   background-color: #f4f7fb;
 }
 
-.sider{
+.sider {
   overflow: auto;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h100 {
+  height: 100%;
+}
+
+.ant-drawer-body{
+  height: 100%;
+  padding: 0;
 }

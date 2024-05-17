@@ -1,11 +1,16 @@
 import React from "react";
-import { Layout, Button, Menu, Icon, Checkbox } from "antd";
+import { Layout, Button, Menu, Icon, Checkbox, Drawer } from "antd";
 import { Scrollbars } from "react-custom-scrollbars";
+import { connect } from "react-redux";
+import store from "@/redux/store";
+
 const { SubMenu } = Menu;
 
 const { Header, Footer, Sider, Content } = Layout;
 import CET from "@/config/CET6.js";
 import "./index.scss";
+
+const WindowWid = window.innerWidth;
 
 const splitArrayByLength = (arr, length) => {
   var result = [];
@@ -16,6 +21,23 @@ const splitArrayByLength = (arr, length) => {
 };
 
 const CetModule = splitArrayByLength(CET, 20);
+
+const isPhoneShow = (visDom) => {
+  if (store.getState().userStore.windowWidth < 800) {
+    return visDom;
+  } else {
+    return "";
+  }
+  console.log(store.getState().userStore.windowWidth);
+};
+
+const isPhoneNotShow = (visDom) => {
+  if (store.getState().userStore.windowWidth < 800) {
+    return "";
+  } else {
+    return visDom;
+  }
+};
 
 const WordMainItem = (props) => {
   return (
@@ -48,6 +70,9 @@ class wordHome extends React.Component {
       cetModuleList: CetModule,
       mainConList: CetModule[0],
       current: "0",
+      WindowWid,
+      collapsed: true,
+      visible: false,
     };
   }
   componentWillMount() {
@@ -67,19 +92,90 @@ class wordHome extends React.Component {
     this.setState({ current: key });
   };
 
+  handleDrawerClick = (menu) => {
+    this.onClose();
+    this.handleClick(menu);
+  };
+
+  toggleCollapsed = () => {
+    this.setState({ collapsed: !this.state.collapsed });
+    this.setState({ visible: !this.state.visible });
+  };
+
+  onClose = () => {
+    this.setState({ visible: false });
+  };
+
   render() {
+    console.log(">>>>>视图更新");
     return (
       <Layout style={{ height: "100%" }}>
         <Header className="header">
+          {isPhoneShow(
+            <Button
+              type="primary"
+              style={{ marginRight: "18px" }}
+              onClick={this.toggleCollapsed}
+            >
+              <Icon type={this.state.collapsed ? "menu-unfold" : "menu-fold"} />
+            </Button>
+          )}
           Word Memory
-          <Button type="primary">Primary</Button>
         </Header>
         <Layout>
-          <Sider className="sider">
+          {isPhoneNotShow(
+            <Sider className="sider">
+              <Scrollbars autoHide>
+                <Menu
+                  theme="light"
+                  onClick={this.handleClick}
+                  selectedKeys={[this.state.current]}
+                >
+                  {this.state.cetModuleList.map((e, index) => {
+                    return (
+                      <Menu.Item key={index}>
+                        <span>第 {index + 1} 部分</span>
+                      </Menu.Item>
+                    );
+                  })}
+                </Menu>
+              </Scrollbars>
+            </Sider>
+          )}
+          <Content>
+            <Scrollbars autoHide>
+              {/* 内容 */}
+              <div className="word-main">
+                {this.state.mainConList.map((item) => {
+                  return (
+                    <div
+                      className="word-main-item"
+                      style={{
+                        flex:
+                          this.props.windowWidth < 800 ? "1 0 40%" : " 1 0 20%",
+                      }}
+                    >
+                      <WordMainItem wordInfo={item}></WordMainItem>
+                    </div>
+                  );
+                })}
+              </div>
+            </Scrollbars>
+          </Content>
+        </Layout>
+        {/* 遮挡层 */}
+        <Drawer
+          placement="left"
+          closable={false}
+          onClose={this.onClose}
+          visible={this.state.visible}
+          width="40%"
+        >
+          <div className="w100 h100">
             <Scrollbars autoHide>
               <Menu
                 theme="light"
-                onClick={this.handleClick}
+                onClick={this.handleDrawerClick}
                 selectedKeys={[this.state.current]}
               >
                 {this.state.cetModuleList.map((e, index) => {
@@ -91,25 +187,22 @@ class wordHome extends React.Component {
                 })}
               </Menu>
             </Scrollbars>
-          </Sider>
-          <Content>
-            <Scrollbars autoHide>
-              {/* 内容 */}
-              <div className="word-main">
-                {this.state.mainConList.map((item) => {
-                  return (
-                    <div className="word-main-item">
-                      <WordMainItem wordInfo={item}></WordMainItem>
-                    </div>
-                  );
-                })}
-              </div>
-            </Scrollbars>
-          </Content>
-        </Layout>
+          </div>
+        </Drawer>
       </Layout>
     );
   }
 }
 
-export default wordHome;
+let mapStateToProps = (state) => ({
+  windowWidth: state.userStore.windowWidth,
+});
+
+let mapDispatchToProps = (dispatch) => ({
+  // login(username) {
+  // 	dispatch(login(username));
+  // }
+});
+
+export default connect(mapStateToProps, null)(wordHome);
+// export default wordHome;
