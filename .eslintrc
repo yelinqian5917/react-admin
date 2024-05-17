@@ -1,0 +1,19 @@
+{
+    "extends": "airbnb",
+    "parser": "babel-eslint",
+    "env": {
+        "browser": false
+    },
+    "settings": {
+        "import/resolver": {
+            "alias": {
+                "map": [
+                    ["@", "./src"] //别名路径
+                ]
+            }
+        }
+    },
+    "rules": {
+        
+    }
+}

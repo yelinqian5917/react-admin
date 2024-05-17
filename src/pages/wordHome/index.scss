@@ -1,0 +1,65 @@
+.word-home {
+}
+
+.wordHomeH100 {
+  height: 100%;
+}
+
+.color-red {
+  color: red;
+}
+
+.word-main {
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  .word-main-item {
+    flex: 1 1 20%;
+    height: 150px;
+    padding: 10px;
+    // border: 1px solid black;
+    border-radius: 8px;
+    transition: transform 0.5s, box-shadow 0.5s;
+    background-color: #fff;
+    cursor: pointer;
+    &:hover {
+      transform: translate(0, -2px);
+      box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
+    }
+  }
+}
+
+.item-word {
+  height: 30%;
+  // display: grid;
+  // place-content: center;
+  // font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  .item-word-left {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  .item-word-right {
+  }
+}
+
+.item-describe {
+  height: 80%;
+}
+
+.header {
+  border-bottom: 1px solid #dadfe6;
+  background: #f4f7fb;
+}
+
+.ant-layout-content {
+  background-color: #f4f7fb;
+}
+
+.sider{
+  overflow: auto;
+}
