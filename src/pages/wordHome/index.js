@@ -123,44 +123,35 @@ class wordHome extends React.Component {
           Word Memory
         </Header>
         <Layout>
-          {isPhoneNotShow(
-            <Sider className="sider">
-              <Scrollbars autoHide>
-                <Menu
-                  theme="light"
-                  onClick={this.handleClick}
-                  selectedKeys={[this.state.current]}
-                >
-                  {this.state.cetModuleList.map((e, index) => {
-                    return (
-                      <Menu.Item key={index}>
-                        <span>第 {index + 1} 部分</span>
-                      </Menu.Item>
-                    );
-                  })}
-                </Menu>
-              </Scrollbars>
-            </Sider>
-          )}
+          <Sider
+            className="sider"
+            width={this.props.windowWidth < 800 ? 0 : "200px"}
+          >
+            <Menu
+              theme="light"
+              onClick={this.handleClick}
+              selectedKeys={[this.state.current]}
+            >
+              {this.state.cetModuleList.map((e, index) => {
+                return (
+                  <Menu.Item key={index}>
+                    <span>第 {index + 1} 部分</span>
+                  </Menu.Item>
+                );
+              })}
+            </Menu>
+          </Sider>
           <Content>
-            <Scrollbars autoHide>
-              {/* 内容 */}
-              <div className="word-main">
-                {this.state.mainConList.map((item) => {
-                  return (
-                    <div
-                      className="word-main-item"
-                      style={{
-                        flex:
-                          this.props.windowWidth < 800 ? "1 0 40%" : " 1 0 20%",
-                      }}
-                    >
-                      <WordMainItem wordInfo={item}></WordMainItem>
-                    </div>
-                  );
-                })}
-              </div>
-            </Scrollbars>
+            {/* 内容 */}
+            <div className="word-main">
+              {this.state.mainConList.map((item) => {
+                return (
+                  <div className="word-main-item">
+                    <WordMainItem wordInfo={item}></WordMainItem>
+                  </div>
+                );
+              })}
+            </div>
           </Content>
         </Layout>
         {/* 遮挡层 */}
@@ -172,21 +163,19 @@ class wordHome extends React.Component {
           width="40%"
         >
           <div className="w100 h100">
-            <Scrollbars autoHide>
-              <Menu
-                theme="light"
-                onClick={this.handleDrawerClick}
-                selectedKeys={[this.state.current]}
-              >
-                {this.state.cetModuleList.map((e, index) => {
-                  return (
-                    <Menu.Item key={index}>
-                      <span>第 {index + 1} 部分</span>
-                    </Menu.Item>
-                  );
-                })}
-              </Menu>
-            </Scrollbars>
+            <Menu
+              theme="light"
+              onClick={this.handleDrawerClick}
+              selectedKeys={[this.state.current]}
+            >
+              {this.state.cetModuleList.map((e, index) => {
+                return (
+                  <Menu.Item key={index}>
+                    <span>第 {index + 1} 部分</span>
+                  </Menu.Item>
+                );
+              })}
+            </Menu>
           </div>
         </Drawer>
       </Layout>
