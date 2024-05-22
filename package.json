@@ -3,11 +3,6 @@
   "version": "1.0.0",
   "description": "test",
   "main": "index.js",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js",
     "serve": "cross-env NODE_ENV=development webpack-dev-server --open --config webpack.dev.js",
