@@ -17,9 +17,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
+  animation: myfirst 1s;
 
   .word-main-item {
-    
     flex: 1 1 150px;
     // min-width: 80px;
     height: 150px;
@@ -78,7 +78,16 @@
   height: 100%;
 }
 
-.ant-drawer-body{
+.ant-drawer-body {
   height: 100%;
   padding: 0;
+}
+
+@keyframes myfirst {
+  from {
+    transform: translate(0, -40px);
+  }
+  to {
+    transform: translate(0, 0);
+  }
 }

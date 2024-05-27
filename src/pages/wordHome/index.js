@@ -40,12 +40,18 @@ const isPhoneNotShow = (visDom) => {
 };
 
 const WordMainItem = (props) => {
+  const checkHandle = (e) => {
+    props.checkboxChange(e, props.index);
+  };
   return (
     <div style={{ height: "100%" }}>
       <div className="item-word">
         <div className="item-word-left">{props.wordInfo.word}</div>
         <div className="item-word-right">
-          <Checkbox></Checkbox>
+          <Checkbox
+            checked={props.wordInfo.checked}
+            onChange={checkHandle}
+          ></Checkbox>
         </div>
       </div>
       <div className="item-describe">
@@ -58,6 +64,24 @@ const WordMainItem = (props) => {
         })}
       </div>
     </div>
+  );
+};
+
+const SideMenu = (props) => {
+  return (
+    <Menu
+      theme="light"
+      onClick={props.handleClick}
+      selectedKeys={[props.current]}
+    >
+      {props.cetModuleList.map((e, index) => {
+        return (
+          <Menu.Item key={index}>
+            <span>第 {index + 1} 部分</span>
+          </Menu.Item>
+        );
+      })}
+    </Menu>
   );
 };
 
@@ -106,6 +130,22 @@ class wordHome extends React.Component {
     this.setState({ visible: false });
   };
 
+  checkboxChange = (event, index) => {
+    console.log(event.target.checked);
+    const content = this.state.mainConList.map((e, ind) => {
+      if (index == ind) {
+        return {
+          ...e,
+          checked: event.target.checked,
+        };
+      } else {
+        return e;
+      }
+    });
+    this.setState({ mainConList: content });
+    // const =this.state.mainConList.findIndex((e) => e.word == word.word);
+  };
+
   render() {
     console.log(">>>>>视图更新");
     return (
@@ -127,27 +167,23 @@ class wordHome extends React.Component {
             className="sider"
             width={this.props.windowWidth < 800 ? 0 : "200px"}
           >
-            <Menu
-              theme="light"
-              onClick={this.handleClick}
-              selectedKeys={[this.state.current]}
-            >
-              {this.state.cetModuleList.map((e, index) => {
-                return (
-                  <Menu.Item key={index}>
-                    <span>第 {index + 1} 部分</span>
-                  </Menu.Item>
-                );
-              })}
-            </Menu>
+            <SideMenu
+              current={this.state.current}
+              cetModuleList={this.state.cetModuleList}
+              handleClick={this.handleClick}
+            ></SideMenu>
           </Sider>
           <Content>
             {/* 内容 */}
-            <div className="word-main">
-              {this.state.mainConList.map((item) => {
+            <div className="word-main" key={this.state.current}>
+              {this.state.mainConList.map((item, index) => {
                 return (
                   <div className="word-main-item">
-                    <WordMainItem wordInfo={item}></WordMainItem>
+                    <WordMainItem
+                      wordInfo={item}
+                      checkboxChange={this.checkboxChange}
+                      index={index}
+                    ></WordMainItem>
                   </div>
                 );
               })}
@@ -163,19 +199,11 @@ class wordHome extends React.Component {
           width="40%"
         >
           <div className="w100 h100">
-            <Menu
-              theme="light"
-              onClick={this.handleDrawerClick}
-              selectedKeys={[this.state.current]}
-            >
-              {this.state.cetModuleList.map((e, index) => {
-                return (
-                  <Menu.Item key={index}>
-                    <span>第 {index + 1} 部分</span>
-                  </Menu.Item>
-                );
-              })}
-            </Menu>
+            <SideMenu
+              current={this.state.current}
+              cetModuleList={this.state.cetModuleList}
+              handleClick={this.handleDrawerClick}
+            ></SideMenu>
           </div>
         </Drawer>
       </Layout>
