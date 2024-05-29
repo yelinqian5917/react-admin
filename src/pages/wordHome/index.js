@@ -178,7 +178,12 @@ class wordHome extends React.Component {
             <div className="word-main" key={this.state.current}>
               {this.state.mainConList.map((item, index) => {
                 return (
-                  <div className="word-main-item">
+                  <div
+                    className={[
+                      "word-main-item",
+                      this.props.windowWidth < 800 ? "flex-phone" : "flex-pc",
+                    ].join(" ")}
+                  >
                     <WordMainItem
                       wordInfo={item}
                       checkboxChange={this.checkboxChange}

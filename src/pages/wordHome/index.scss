@@ -20,7 +20,7 @@
   animation: myfirst 1s;
 
   .word-main-item {
-    flex: 1 1 150px;
+    // flex: 1 1 150px;
     // min-width: 80px;
     height: 150px;
     padding: 10px;
@@ -33,6 +33,12 @@
       transform: translate(0, -2px);
       box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
     }
+  }
+  .flex-pc {
+    flex: 1 1 calc((100% - 45px) / 4);
+  }
+  .flex-phone {
+    flex: 1 1 calc((100% - 15px) / 2);
   }
 }
 
